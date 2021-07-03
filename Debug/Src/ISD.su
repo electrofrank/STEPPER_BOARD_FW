@@ -1,0 +1,4 @@
+ISD.c:17:6:makeNSteps	24	static
+ISD.c:62:7:rotate	32	static
+ISD.c:78:6:setSpeed	48	static
+ISD.c:133:6:stopMoving	16	static
