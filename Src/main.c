@@ -61,7 +61,7 @@ uint32_t TxMailbox;
 int error = 0;
 
 int target = 0;
-int prev_target = 0;
+int prev_target = -1;
 
 uint16_t currentPosition;
 
@@ -135,8 +135,6 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 	RetargetInit(&huart2);
 
-	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, 1);
-
 	printf("Stepper Board \n");
 
 	HAL_TIM_Base_Start(&htim8);
@@ -157,17 +155,19 @@ int main(void) {
 
 	amt222_readPos(); // dummy read
 
+	HAL_Delay(250);
+
 	int temp = amt222_readPos();
-	if (temp == 0xFFFF) {
-		printf("Encoder Error !\n");
-		while (1)
-			;
-	} else {
+
+//if(temp == 0xFFFF) {
+//	printf("Encoder Error\n");
+//while(1);
+//}
 
 		currentPosition = (amt222_readPos() / 4096.0) * 360.0;
-		printf("Encoder Initialized - Actual Pos: %d\n", currentPosition);
+		printf("Encoder Initialized - Actual Pos: %d\n", temp);
 
-	}
+
 
 	// start can peripheral
 	printf("CAN Register Configuring... \n");
@@ -189,6 +189,7 @@ int main(void) {
 	while (1) {
 
 	//stepper_board_heartbeat (should be a function called by a timer interrupt)
+    // It could contain the encoder position (for mobility controller) and the stepper temperature
 		pTxHeader.ExtId = 0x00000154;
 
 		r[0] = 1;
@@ -199,12 +200,14 @@ int main(void) {
 		HAL_CAN_AddTxMessage(&hcan1, &pTxHeader, r, &TxMailbox);
 
 
-
 		// poll if target changed, if it does, execute the control
-		if (target != prev_target) {
+		if (target != prev_target ) {
 			Steer_control((int) target);
 			prev_target = target;
 		}
+
+
+
 
 		HAL_Delay(100);
 		// control loop
