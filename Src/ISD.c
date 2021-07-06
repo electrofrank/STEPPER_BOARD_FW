@@ -62,7 +62,7 @@ void makeNSteps(StepperMotor *motor, int steps, GPIO_PinState direction) {
 float rotate(StepperMotor *motor, float rotationAngle, GPIO_PinState direction) {
 	float stepAngle = (float) 360 / RES;		// rotation angle of each step
 
-	int steps = round(rotationAngle * 30 * 2 / stepAngle);// whole number of steps for given rotation angle
+	int steps = round(rotationAngle * 3 * 30 * 2 / stepAngle);// whole number of steps for given rotation angle
 
 	//if rotation angle is less than one step angle, return rotationAngle
 	if (steps == 0 || motor->speed == 0) {

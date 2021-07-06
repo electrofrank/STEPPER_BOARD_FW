@@ -61,7 +61,7 @@ uint32_t TxMailbox;
 int error = 0;
 
 int target = 0;
-int prev_target = -1;
+int prev_target = 0xFFFF;
 
 uint16_t currentPosition;
 
@@ -69,6 +69,7 @@ uint16_t previousPosition;
 
 StepperMotor motor;
 
+uint8_t encoder_flag = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,6 +86,7 @@ static void MX_TIM8_Init(void);
 /* USER CODE BEGIN PFP */
 uint16_t amt222_readPos();
 void Steer_control(int target);
+uint8_t encoder_check(void);
 
 void MX_TIM1_Init(void);
 void MX_TIM8_Init(void);  // check msp init file for error
@@ -148,25 +150,10 @@ int main(void) {
 	motor.htim = &htim8;
 	motor.speed = 300;
 	motor.stepChannel = TIM_CHANNEL_1;
-	setSpeed(&motor, 100);
+	setSpeed(&motor, 200);
 
-	//read current position fron absolute encoder (before can starts to receive)
-	printf("Encoder Initialization... \n");
 
-	amt222_readPos(); // dummy read
-
-	HAL_Delay(250);
-
-	int temp = amt222_readPos();
-
-//if(temp == 0xFFFF) {
-//	printf("Encoder Error\n");
-//while(1);
-//}
-
-		currentPosition = (amt222_readPos() / 4096.0) * 360.0;
-		printf("Encoder Initialized - Actual Pos: %d\n", temp);
-
+	encoder_check();
 
 
 	// start can peripheral
@@ -201,10 +188,13 @@ int main(void) {
 
 
 		// poll if target changed, if it does, execute the control
-		if (target != prev_target ) {
+		if ((target != prev_target) && target != 0xFFFF  ) {
 			Steer_control((int) target);
 			prev_target = target;
 		}
+
+		currentPosition = (amt222_readPos() / 4096.0) * 360.0;
+		printf("Encoder Initialized - Actual Pos: %d\n", currentPosition);
 
 
 
@@ -605,15 +595,15 @@ uint16_t amt222_readPos() {
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET); // pull cs low
 
-	HAL_Delay(0.1);
+	HAL_Delay(1);
 
 	HAL_SPI_Receive(&hspi1, &buff1, 1, 100);  // receive 1 bytes data
 
-	HAL_Delay(0.1);
+	HAL_Delay(1);
 
 	HAL_SPI_Receive(&hspi1, &buff2, 1, 100);  // receive 1 bytes data
 
-	HAL_Delay(0.1);
+	HAL_Delay(1);
 
 	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET); // pull cs high
 
@@ -724,6 +714,32 @@ void Steer_control(int target) {
 
 	}
 
+}
+
+uint8_t encoder_check(void) {
+	printf("Encoder Initialization... \n");
+
+	HAL_Delay(250);
+
+
+	amt222_readPos(); // dummy read
+
+	HAL_Delay(250);
+
+	int temp = amt222_readPos();
+
+if(temp == 0xFFFF) {
+	printf("Encoder Error\n");
+encoder_flag = 0;
+
+}
+
+else {
+
+		currentPosition = (amt222_readPos() / 4096.0) * 360.0;
+		printf("Encoder Initialized - Actual Pos: %d\n", temp);
+		encoder_flag = 1;
+	}
 }
 /* USER CODE END 4 */
 
