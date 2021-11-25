@@ -61,8 +61,8 @@ all: main-build
 main-build: STEPPER_BOARD_FW.elf secondary-outputs
 
 # Tool invocations
-STEPPER_BOARD_FW.elf: $(OBJS) $(USER_OBJS) C:\Users\Francesco\Desktop\STEPPER_BOARD_FW\STEPPER_BOARD_FW\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STEPPER_BOARD_FW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Francesco\Desktop\STEPPER_BOARD_FW\STEPPER_BOARD_FW\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STEPPER_BOARD_FW.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+STEPPER_BOARD_FW.elf: $(OBJS) $(USER_OBJS) C:\Users\Francesco\Desktop\TEAM\ DIANA\0\ -\ MOBILITY\0\ -\ STEER\ SYSTEM\CODICI\STEPPER_BOARD_FW\STEPPER_BOARD_FW\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STEPPER_BOARD_FW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Francesco\Desktop\TEAM DIANA\0 - MOBILITY\0 - STEER SYSTEM\CODICI\STEPPER_BOARD_FW\STEPPER_BOARD_FW\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STEPPER_BOARD_FW.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

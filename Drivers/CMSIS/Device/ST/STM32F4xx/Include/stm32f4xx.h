@@ -1,61 +1,61 @@
 /**
- ******************************************************************************
- * @file    stm32f4xx.h
- * @author  MCD Application Team
- * @brief   CMSIS STM32F4xx Device Peripheral Access Layer Header File.
- *            
- *          The file is the unique include file that the application programmer
- *          is using in the C source code, usually in main.c. This file contains:
- *           - Configuration section that allows to select:
- *              - The STM32F4xx device used in the target application
- *              - To use or not the peripheralï¿½s drivers in application code(i.e. 
- *                code will be based on direct access to peripheralï¿½s registers 
- *                rather than drivers API), this option is controlled by 
- *                "#define USE_HAL_DRIVER"
- *  
- ******************************************************************************
- * @attention
- *
- * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
- * All rights reserved.</center></h2>
- *
- * This software component is licensed by ST under BSD 3-Clause license,
- * the "License"; You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at:
- *                        opensource.org/licenses/BSD-3-Clause
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * @file    stm32f4xx.h
+  * @author  MCD Application Team
+  * @brief   CMSIS STM32F4xx Device Peripheral Access Layer Header File.
+  *            
+  *          The file is the unique include file that the application programmer
+  *          is using in the C source code, usually in main.c. This file contains:
+  *           - Configuration section that allows to select:
+  *              - The STM32F4xx device used in the target application
+  *              - To use or not the peripheral’s drivers in application code(i.e. 
+  *                code will be based on direct access to peripheral’s registers 
+  *                rather than drivers API), this option is controlled by 
+  *                "#define USE_HAL_DRIVER"
+  *  
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
+  */
 
 /** @addtogroup CMSIS
- * @{
- */
+  * @{
+  */
 
 /** @addtogroup stm32f4xx
- * @{
- */
-
+  * @{
+  */
+    
 #ifndef __STM32F4xx_H
 #define __STM32F4xx_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
-
+   
 /** @addtogroup Library_configuration_section
- * @{
- */
-
+  * @{
+  */
+  
 /**
- * @brief STM32 Family
- */
+  * @brief STM32 Family
+  */
 #if !defined  (STM32F4)
 #define STM32F4
 #endif /* STM32F4 */
 
 /* Uncomment the line below according to the target STM32 device used in your
- application 
- */
+   application 
+  */
 #if !defined (STM32F405xx) && !defined (STM32F415xx) && !defined (STM32F407xx) && !defined (STM32F417xx) && \
     !defined (STM32F427xx) && !defined (STM32F437xx) && !defined (STM32F429xx) && !defined (STM32F439xx) && \
     !defined (STM32F401xC) && !defined (STM32F401xE) && !defined (STM32F410Tx) && !defined (STM32F410Cx) && \
@@ -92,10 +92,10 @@
                                    STM32F413RG, STM32F413VG and STM32F413ZG Devices */
   /* #define STM32F423xx */   /*!< STM32F423CH, STM32F423RH, STM32F423VH and STM32F423ZH Devices */
 #endif
-
+   
 /*  Tip: To avoid modifying this file each time you need to switch between these
- devices, you can define the device in your toolchain compiler preprocessor.
- */
+        devices, you can define the device in your toolchain compiler preprocessor.
+  */
 #if !defined  (USE_HAL_DRIVER)
 /**
  * @brief Comment the line below if you will not use the peripherals drivers.
@@ -106,8 +106,8 @@
 #endif /* USE_HAL_DRIVER */
 
 /**
- * @brief CMSIS version number V2.6.6
- */
+  * @brief CMSIS version number V2.6.6
+  */
 #define __STM32F4xx_CMSIS_VERSION_MAIN   (0x02U) /*!< [31:24] main version */
 #define __STM32F4xx_CMSIS_VERSION_SUB1   (0x06U) /*!< [23:16] sub1 version */
 #define __STM32F4xx_CMSIS_VERSION_SUB2   (0x06U) /*!< [15:8]  sub2 version */
@@ -118,12 +118,12 @@
                                          |(__STM32F4xx_CMSIS_VERSION))
 
 /**
- * @}
- */
+  * @}
+  */
 
 /** @addtogroup Device_Included
- * @{
- */
+  * @{
+  */
 
 #if defined(STM32F405xx)
   #include "stm32f405xx.h"
@@ -154,7 +154,7 @@
 #elif defined(STM32F411xE)
   #include "stm32f411xe.h"
 #elif defined(STM32F446xx)
-#include "stm32f446xx.h"
+  #include "stm32f446xx.h"
 #elif defined(STM32F469xx)
   #include "stm32f469xx.h"
 #elif defined(STM32F479xx)
@@ -176,32 +176,39 @@
 #endif
 
 /**
- * @}
- */
+  * @}
+  */
 
 /** @addtogroup Exported_types
- * @{
- */
-typedef enum {
-	RESET = 0U, SET = !RESET
+  * @{
+  */ 
+typedef enum 
+{
+  RESET = 0U, 
+  SET = !RESET
 } FlagStatus, ITStatus;
 
-typedef enum {
-	DISABLE = 0U, ENABLE = !DISABLE
+typedef enum 
+{
+  DISABLE = 0U, 
+  ENABLE = !DISABLE
 } FunctionalState;
 #define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
 
-typedef enum {
-	SUCCESS = 0U, ERROR = !SUCCESS
+typedef enum
+{
+  SUCCESS = 0U,
+  ERROR = !SUCCESS
 } ErrorStatus;
 
 /**
- * @}
- */
+  * @}
+  */
+
 
 /** @addtogroup Exported_macro
- * @{
- */
+  * @{
+  */
 #define SET_BIT(REG, BIT)     ((REG) |= (BIT))
 
 #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
@@ -218,12 +225,13 @@ typedef enum {
 
 #define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL))) 
 
+
 /**
- * @}
- */
+  * @}
+  */
 
 #if defined (USE_HAL_DRIVER)
-#include "stm32f4xx_hal.h"
+ #include "stm32f4xx_hal.h"
 #endif /* USE_HAL_DRIVER */
 
 #ifdef __cplusplus
@@ -232,11 +240,14 @@ typedef enum {
 
 #endif /* __STM32F4xx_H */
 /**
- * @}
- */
+  * @}
+  */
 
 /**
- * @}
- */
+  * @}
+  */
+  
+
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

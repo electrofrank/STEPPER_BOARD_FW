@@ -42,7 +42,6 @@ void makeNSteps(StepperMotor *motor, int steps, GPIO_PinState direction) {
 		motor->htim->Instance->SR &= 0xFFFE;// clear UIF - update interrupt flag
 		HAL_TIM_PWM_Start(motor->htim, motor->stepChannel);	// generate PWM signals
 		steps -= 256;
-
 		while ((motor->htim->Instance->SR & 0x01) == 0) {
 			//wait until 256 pulses are generated.
 		}
@@ -62,7 +61,10 @@ void makeNSteps(StepperMotor *motor, int steps, GPIO_PinState direction) {
 float rotate(StepperMotor *motor, float rotationAngle, GPIO_PinState direction) {
 	float stepAngle = (float) 360 / RES;		// rotation angle of each step
 
-	int steps = round(rotationAngle * 3 * 30 * 2 / stepAngle);// whole number of steps for given rotation angle
+		int steps = round(rotationAngle * 3 * 30 * 2 / stepAngle);// whole number of steps for given rotation angle
+
+
+
 
 	//if rotation angle is less than one step angle, return rotationAngle
 	if (steps == 0 || motor->speed == 0) {
